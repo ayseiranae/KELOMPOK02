@@ -12,7 +12,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier) {
+fun ProfileScreen(
+    modifier: Modifier = Modifier,
+    onLogoutClick: () -> Unit = {} // REVISI: Tambah aksi navigasi logout
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -51,6 +54,24 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                 HorizontalDivider()
                 ProfileItem(label = "Address", value = UserData.address)
             }
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        // REVISI: Menambahkan tombol Logout sesuai assignment
+        Button(
+            onClick = onLogoutClick,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+        ) {
+            Text(
+                text = "Logout",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onError
+            )
         }
     }
 }

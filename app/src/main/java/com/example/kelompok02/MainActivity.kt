@@ -17,21 +17,36 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             KELOMPOK02Theme {
-                // State navigasi: "register" → "login" → "profile"
-                var currentScreen by remember { mutableStateOf("register") }
+                // REVISI: Start screen ganti ke "welcome"
+                var currentScreen by remember { mutableStateOf("welcome") }
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     when (currentScreen) {
+                        "welcome" -> WelcomeScreen(
+                            onLoginClick = { currentScreen = "login" },
+                            onRegisterClick = { currentScreen = "register" }
+                        )
                         "register" -> RegistrationScreen(
                             modifier = Modifier.padding(innerPadding),
-                            onRegistrationSuccess = { currentScreen = "login" }
+                            onRegistrationSuccess = { currentScreen = "login" },
+                            onLoginClick = { currentScreen = "login" },
+                            // MENGHUBUNGKAN TOMBOL BACK:
+                            onBackClick = { currentScreen = "welcome" }
                         )
                         "login" -> LoginScreen(
                             modifier = Modifier.padding(innerPadding),
-                            onLoginSuccess = { currentScreen = "profile" }
+                            onLoginSuccess = { currentScreen = "profile" },
+                            onForgotPasswordClick = { currentScreen = "forgot_password" },
+                            // MENGHUBUNGKAN TOMBOL BACK:
+                            onBackClick = { currentScreen = "welcome" }
+                        )
+                        "forgot_password" -> ForgotPasswordScreen(
+                            modifier = Modifier.padding(innerPadding),
+                            onBackToLoginClick = { currentScreen = "login" }
                         )
                         "profile" -> ProfileScreen(
-                            modifier = Modifier.padding(innerPadding)
+                            modifier = Modifier.padding(innerPadding),
+                            onLogoutClick = { currentScreen = "welcome" }
                         )
                     }
                 }
