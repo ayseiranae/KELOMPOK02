@@ -23,9 +23,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ProfileImage(oneEditClick: () -> Unit) {
+fun ProfileImage(
+    modifier: Modifier = Modifier,
+    showEditButton: Boolean = true,
+    oneEditClick: () -> Unit = {}) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp),
         contentAlignment = Alignment.Center

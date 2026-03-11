@@ -31,7 +31,7 @@ fun ProfileScreen(
             modifier = Modifier.padding(bottom = 24.dp)
         )
 
-        ProfileImage(oneEditClick = {})
+        ProfileImage(oneEditClick = {}) // Diha nambah ini
 
         // Card berisi data user
         Card(
