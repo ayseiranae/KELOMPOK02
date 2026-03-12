@@ -7,10 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.kelompok02.ui.theme.KELOMPOK02Theme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +17,45 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             KELOMPOK02Theme {
+                // REVISI: Start screen ganti ke "welcome"
+                var currentScreen by remember { mutableStateOf("welcome") }
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    when (currentScreen) {
+                        "welcome" -> WelcomeScreen(
+                            onLoginClick = { currentScreen = "login" },
+                            onRegisterClick = { currentScreen = "register" }
+                        )
+                        "register" -> RegistrationScreen(
+                            modifier = Modifier.padding(innerPadding),
+                            onRegistrationSuccess = { currentScreen = "login" },
+                            onLoginClick = { currentScreen = "login" },
+                            // MENGHUBUNGKAN TOMBOL BACK:
+                            onBackClick = { currentScreen = "welcome" }
+                        )
+                        "login" -> LoginScreen(
+                            modifier = Modifier.padding(innerPadding),
+                            onLoginSuccess = { currentScreen = "profile" },
+                            onForgotPasswordClick = { currentScreen = "forgot_password" },
+                            // MENGHUBUNGKAN TOMBOL BACK:
+                            onBackClick = { currentScreen = "welcome" }
+                        )
+                        "forgot_password" -> ForgotPasswordScreen(
+                            modifier = Modifier.padding(innerPadding),
+                            onBackToLoginClick = { currentScreen = "login" }
+                        )
+                        "profile" -> ProfileScreen(
+                            modifier = Modifier.padding(innerPadding),
+                            onLogoutClick = { currentScreen = "welcome" },
+                            // NAVIGASI KE CUSTOM PROFILE:
+                            onEditProfileClick = { currentScreen = "profile_custom" }
+                        )
+                        "profile_custom" -> ProfileCustomScreen(
+                            onBackClick = { currentScreen = "profile" }
+                        )
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    KELOMPOK02Theme {
-        Greeting("Android")
     }
 }
